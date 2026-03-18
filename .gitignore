@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+.vscode/
+
+# Data
+data/
+results/
+result/
+logs/*
+*.npy
+*.npz
+*.pkl
+*.h5
+
+# Logs
+*.log
+*.tmp
