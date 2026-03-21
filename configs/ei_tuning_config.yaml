@@ -1,0 +1,48 @@
+# ============================================================
+# EI Tuning — Configuration
+# ============================================================
+
+# --- Paths ($HOME / $WORK expanded at runtime) ---
+data_dir:    "$WORK/TVB-schz"
+output_dir:  "$WORK/TVB-schz/results"
+cache_dir:   "$WORK/TVB-schz/cache"
+shuffle_dir: "$WORK/TVB-schz/shuffle"
+
+# --- Data files (relative to data_dir) ---
+fc_file:      "data/FC_allsubj_allparcellations_Hagmann.npy"
+lengths_file: "connectomes/len_allsubj_Hagmann.npy"
+
+weight_types:
+  ADC:     "connectomes/ADC_allsubj_Hagmann.npy"
+  gFA:     "connectomes/gFA_allsubj_Hagmann.npy"
+  density: "connectomes/density_allsubj_Hagmann.npy"
+  number:  "connectomes/numb_allsubj_Hagmann.npy"
+
+region_labels:
+  83:   "labels/reg_labels_Hagmann83.npy"
+  129:  "labels/reg_labels_Hagmann129.npy"
+  234:  "labels/reg_labels_Hagmann234.npy"
+  463:  "labels/reg_labels_Hagmann463.npy"
+  1015: "labels/reg_labels_Hagmann1015.npy"
+
+# --- Simulation ---
+simulation:
+  dt:           4.0
+  t1_transient: 300000   # ms = 5 min
+  bold_TR:      720.0
+
+# --- FIC tuning ---
+fic:
+  eta:     0.5
+  target:  0.25
+  n_steps: 200
+
+# --- EIB tuning ---
+eib:
+  eta:               0.005
+  window_size:       150
+  n_steps:           2000
+  snapshot_interval: 50
+
+# --- Shuffle ---
+random_seed: 42

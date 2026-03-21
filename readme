@@ -1,0 +1,51 @@
+# Mapping excitation-inhibition balance in schizophrenia with white-matter-microstructure informed modeling
+
+> Whole-brain computational model fitting (EI tuning) for schizophrenia study. Fits a two-population Reduced Wong-Wang model to empirical functional connectivity (FC) using Feedback Inhibitory Control (FIC) + Excitation-Inhibition Balance (EIB) tuning.
+
+## Project Structure
+TVB-schz/
+├── configs/
+│   └── ei_tuning_config.yaml   ← all paths and simulation parameters
+├── scripts/
+│   ├── normal.sh               ← Task 1: fit SC → own FC
+│   ├── shuffle_region.sh       ← Task 2: shuffled SC regions → own FC
+│   └── shuffle_sub.sh          ← Task 3: SC → different subject's FC
+├── tasks/
+│   └── ei_tuning.py            ← main simulation script (all 3 tasks)
+├── utils/
+│   └── generate_shuffles.py    ← generate shuffle files (run once)
+└── logs/
+    ├── slurm/                  ← SLURM .out / .err per job
+    ├── normal/                 ← per-subject logs for Task 1
+    ├── shuffle_region/         ← per-subject logs for Task 2
+    └── shuffle_subj/           ← per-subject logs for Task 3
+Data and results live in $WORK/TVB-schz/ (not tracked by git).
+
+## Data (in $WORK/TVB-schz/)
+connectomes/    ← 4 weight matrix types: ADC, gFA, density, number; length matrix
+data/           ← empirical FC (all subjects, all parcellations)
+labels/         ← region labels per parcellation (83, 129, 234, 463, 1015)
+results/        ← output .npy files (created at runtime)
+shuffle/        ← shuffle permutation files (created by generate_shuffles.py)
+cache/          ← tvboptim JIT cache (created at runtime)
+
+## Three Tasks
+TaskSC weightsFC targetScriptnormalsubject's ownsubject's ownnormal.shshuffle_regionsubject's own (region order shuffled)subject's ownshuffle_region.shshuffle_subjsubject's owndifferent subject's FCshuffle_sub.sh
+
+## How to run
+1. Install JAX with GPU support
+```bash
+conda activate $WORK/.conda/tvboptim
+pip install --upgrade "jax[cuda13]"
+python -c "import jax; print(jax.devices())"  # must show CudaDevice
+```
+
+2. Generate shuffle files (for tasks 2 & 3 only)
+```bash
+python utils/generate_shuffles.py --config configs/ei_tuning_config.yaml
+```
+
+3. Submit
+```bash
+sbatch scripts/normal.sh
+```
