@@ -45,7 +45,7 @@ python -c "import jax; print(jax.devices())"  # must show CudaDevice
 python utils/generate_shuffles.py --config configs/ei_tuning_config.yaml
 ```
 
-3. Submit
+3. Submit (should in TVB-schz/)
 ```bash
 sbatch scripts/normal.sh
 ```

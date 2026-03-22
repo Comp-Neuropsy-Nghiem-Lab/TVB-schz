@@ -2,7 +2,7 @@
 #SBATCH --job-name=ei_shuf_sub
 #SBATCH --output=logs/slurm/shuf_sub_%A_%a.out
 #SBATCH --error=logs/slurm/shuf_sub_%A_%a.err
-#SBATCH --array=0-431%16           # 2 parcs × 4 weights × 54 subjects = 432 jobs
+#SBATCH --array=0-215%20
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
@@ -10,7 +10,8 @@
 #SBATCH --partition=2080-galvani
 
 # ── EDIT to control what runs ─────────────────────────────
-PARCELLATIONS=(83 129)
+# PARCELLATIONS=(83 129 234 463 1015)
+PARCELLATIONS=(83)
 WEIGHT_TYPES=(ADC gFA density number)
 # ──────────────────────────────────────────────────────────
 
