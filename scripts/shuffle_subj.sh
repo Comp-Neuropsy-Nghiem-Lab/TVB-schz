@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=ei_shuf_reg
-#SBATCH --output=logs/slurm/shuf_reg_%A_%a.out
-#SBATCH --error=logs/slurm/shuf_reg_%A_%a.err
+#SBATCH --job-name=ei_shuf_subj
+#SBATCH --output=logs/slurm/shuf_subj_%A_%a.out
+#SBATCH --error=logs/slurm/shuf_subj_%A_%a.err
 #SBATCH --array=0-215%20
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
@@ -11,7 +11,7 @@
 
 # ── EDIT to control what runs ─────────────────────────────
 # PARCELLATIONS=(83 129 234 463 1015)
-PARCELLATIONS=(83)
+PARCELLATIONS=(129)
 WEIGHT_TYPES=(ADC gFA density number)
 # ──────────────────────────────────────────────────────────
 
@@ -41,7 +41,7 @@ SUBJECT=${SUBJECTS[$S_IDX]}
 echo "$SLURM_ARRAY_TASK_ID | $WEIGHT_TYPE | parc$PARCELLATION | $SUBJECT"
 
 srun python tasks/ei_tuning.py \
-    --task shuffle_region \
+    --task shuffle_subj \
     --weight_type  "$WEIGHT_TYPE"  \
     --parcellation "$PARCELLATION" \
     --subject      "$SUBJECT"      \

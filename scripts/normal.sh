@@ -2,7 +2,7 @@
 #SBATCH --job-name=ei_normal
 #SBATCH --output=logs/slurm/normal_%A_%a.out
 #SBATCH --error=logs/slurm/normal_%A_%a.err
-#SBATCH --array=0-215%20           # 1 parcs × 4 weights × 54 subjects = 216 jobs, max 20 running
+#SBATCH --array=0-53%16           # 1 parcs × 4 weights × 54 subjects = 216 jobs, max 20 running
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
@@ -11,8 +11,8 @@
 
 # ── EDIT to control what runs ─────────────────────────────
 # PARCELLATIONS=(83 129 234 463 1015)
-PARCELLATIONS=(129)
-WEIGHT_TYPES=(ADC gFA density number)
+PARCELLATIONS=(83)
+WEIGHT_TYPES=(ADC)
 # ──────────────────────────────────────────────────────────
 
 mkdir -p logs/slurm

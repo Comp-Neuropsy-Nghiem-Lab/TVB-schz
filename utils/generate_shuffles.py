@@ -52,7 +52,7 @@ else:
     keys = sorted(d.keys())
     shuf = keys.copy()
     np.random.default_rng(seed).shuffle(shuf)
-    np.save(str(out), shuf)
+    np.save(str(out), np.array(shuf))
     print(f"\nSubject shuffle: {keys[:3]} → {shuf[:3]} ...")
     print(f"Saved {out}")
 

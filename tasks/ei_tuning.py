@@ -200,7 +200,8 @@ def main():
             sys.exit(1)
         weights_tmp   = np.load(data_dir / cfg["weight_types"][wtype], allow_pickle=True).item()
         keys_original = sorted(weights_tmp.keys())
-        keys_shuffled = np.load(str(sub_order_file), allow_pickle=True).tolist()
+        keys_shuffled = np.load(str(sub_order_file), allow_pickle=True)
+        keys_shuffled = keys_shuffled.tolist() if keys_shuffled.ndim > 0 else list(keys_shuffled.item())
         fc_subject    = keys_shuffled[keys_original.index(pat)]
         out_file = out_dir / f"{pat}_fc{fc_subject}.npy"
         log.info(f"SC: {pat}  FC target: {fc_subject}")
