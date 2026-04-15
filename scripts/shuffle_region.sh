@@ -21,7 +21,7 @@ conda activate $WORK/.conda/tvboptim || conda activate tvboptim
 
 SUBJECTS=($(python - <<EOF
 import numpy as np, os, yaml
-cfg      = yaml.safe_load(open("configs/ei_tuning_config.yaml"))
+cfg      = yaml.safe_load(open("configs/ei_tuning.yaml"))
 data_dir = os.path.expandvars(cfg["data_dir"])
 d        = np.load(os.path.join(data_dir, list(cfg["weight_types"].values())[0]), allow_pickle=True).item()
 print(" ".join(sorted(d.keys())))
@@ -40,9 +40,9 @@ PARCELLATION=${PARCELLATIONS[$P_IDX]}
 SUBJECT=${SUBJECTS[$S_IDX]}
 echo "$SLURM_ARRAY_TASK_ID | $WEIGHT_TYPE | parc$PARCELLATION | $SUBJECT"
 
-srun python tasks/ei_tuning.py \
-    --task shuffle_region \
+srun python main.py \
+    --task ei_tuning\
+    --exp shuffle_region \
     --weight_type  "$WEIGHT_TYPE"  \
     --parcellation "$PARCELLATION" \
     --subject      "$SUBJECT"      \
-    --config       configs/ei_tuning_config.yaml
