@@ -11,12 +11,10 @@ warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--task", type=str, required=True, choices=["ei_tuning", "classification", "visualization"])
-parser.add_argument("--exp", type=str, required=True, choices=["normal", "shuffle_region", "shuffle_subj"])
+parser.add_argument("--exp", type=str, required=True, choices=["normal", "shuffle_region", "shuffle_subj", "shuffle_graph"])
 parser.add_argument("--weight_type", type=str, default=None)
 parser.add_argument("--parcellation", type=int, default=None)
 parser.add_argument("--subject", type=str, default=None)
-parser.add_argument("--sparsity", type=float, default=None)
-parser.add_argument("--graph_idx", type=int, default=None)
 
 
 def main():
@@ -28,8 +26,6 @@ def main():
     config["weight_type"] = args.weight_type
     config["parcellation"] = args.parcellation
     config["subject"] = args.subject
-    config["sparsity"] = args.sparsity
-    config["graph_idx"] = args.graph_idx
 
     if args.task == "ei_tuning":
         module = importlib.import_module("tasks.ei_tuning")

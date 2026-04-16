@@ -32,8 +32,7 @@ echo "ID: $SLURM_ARRAY_TASK_ID | Type: $WEIGHT_TYPE | Sparsity: $SPARSITY | Grap
 
 srun python main.py \
     --config        "configs/ei_tuning.yaml" \
-    --task          "ei_tuning.py" \
+    --task          ei_tuning.py \
+    --exp           shuffle_graph \
     --subject       "average_subj" \
     --weight_type   "$WEIGHT_TYPE" \
-    --sparsity      "$SPARSITY" \
-    --graph_idx     "$GRAPH_IDX"
