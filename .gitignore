@@ -9,7 +9,7 @@ __pycache__/
 # IDE Software
 .idea/
 .vscode/
-.codex
+.codex/
 
 # Data
 data/
