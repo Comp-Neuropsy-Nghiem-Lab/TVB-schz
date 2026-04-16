@@ -6,9 +6,10 @@ __pycache__/
 *.pyc
 *.pyo
 
-# IDE
+# IDE Software
 .idea/
 .vscode/
+.codex
 
 # Data
 data/
