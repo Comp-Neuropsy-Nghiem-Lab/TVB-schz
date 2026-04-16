@@ -15,6 +15,8 @@ parser.add_argument("--exp", type=str, required=True, choices=["normal", "shuffl
 parser.add_argument("--weight_type", type=str, default=None)
 parser.add_argument("--parcellation", type=int, default=None)
 parser.add_argument("--subject", type=str, default=None)
+parser.add_argument("--sparsity", type=float, default=None)
+parser.add_argument("--graph_idx", type=int, default=None)
 
 
 def main():
@@ -26,6 +28,8 @@ def main():
     config["weight_type"] = args.weight_type
     config["parcellation"] = args.parcellation
     config["subject"] = args.subject
+    config["sparsity"] = args.sparsity
+    config["graph_idx"] = args.graph_idx
 
     if args.task == "ei_tuning":
         module = importlib.import_module("tasks.ei_tuning")

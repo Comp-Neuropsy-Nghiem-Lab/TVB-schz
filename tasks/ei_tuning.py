@@ -170,7 +170,41 @@ class ShuffleSubjectEITuning(NormalEITuning):
         np.save(str(self.out_file), save_data)
         self.log.info(f"Saved → {self.out_file}")
 
+class ShuffleGraphEITuning(NormalEITuning):
+    
+    def __init__(self, config):
+        super().__init__(config)
+        self.subject = config["subject"]
+        self.w_type = config["weight_type"]
+        self.sparsity = config["sparsity"]
+        self.graph_idx = config["graph_idx"]
+        
+        self.out_dir = self.out_dir / self.task / self.wtype / f"parc{self.parc}" / self.pat / f"spar_{self.sparsity:.1f}"
+        self.out_dir.mkdir(parents=True, exist_ok=True)
+        self.out_file = self.out_dir / f"shuf_{self.graph_idx}.npy"
+    
+    def load_data(self):
+        self.log.info(f"Loading shuffled graph data for {self.wtype}...")
+        
+        sparsity_int = int(float(self.sparsity) * 100)
+        file_name = f"{self.wtype}_er_spars{sparsity_int:03d}.npy"
+        file_path = self.shuffle_dir / file_name
+        
+        if not file_path.exists():
+            self.log.error(f"Graph file not found: {file_path}")
+            sys.exit(1)
+            
+        all_graphs = np.load(str(file_path))
+        
+        self.weights = jnp.array(all_graphs[self.graph_idx])
+        self.weights = self.weights / jnp.max(self.weights)
+        self.region_labels = jnp.load(self.data_dir / self.cfg["region_labels"][self.parc])
+        fc_all = jnp.load(self.data_dir / self.cfg["fc_file"], allow_pickle=True).item()
+        
+        return all_graphs[self.idx]
+        
 
 normal = NormalEITuning
 shuffle_region = ShuffleRegionEITuning
 shuffle_subj = ShuffleSubjectEITuning
+shuffle_graph = ShuffleGraphEITuning
