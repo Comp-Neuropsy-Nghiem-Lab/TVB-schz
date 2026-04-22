@@ -7,7 +7,7 @@ Saves:
   $WORK/TVB-schz/shuffle/sub_order/keys_shuffled.npy        — subject order
 
 Usage:
-    python utils/generate_shuffles.py --config configs/ei_tuning_config.yaml
+    python utils/generate_shuffles.py --config /configs/ei_tuning_config.yaml
 """
 
 import argparse
@@ -15,6 +15,7 @@ import os
 import numpy as np
 from pathlib import Path
 import yaml
+import networkx as nx
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--config", required=True)
@@ -28,8 +29,11 @@ seed        = cfg.get("random_seed", 42)
 region_dir = shuffle_dir / "region_order"
 sub_dir    = shuffle_dir / "sub_order"
 graph_dir = shuffle_dir / "graph_shuffles"
+mean_sc_dir = shuffle_dir / "mean_SC"
 region_dir.mkdir(parents=True, exist_ok=True)
 sub_dir.mkdir(parents=True, exist_ok=True)
+graph_dir.mkdir(parents=True, exist_ok=True)
+mean_sc_dir.mkdir(parents=True, exist_ok=True)
 
 # Region shuffle — one permutation per parcellation size
 parcellations = [83, 129, 234, 463, 1015]
@@ -68,7 +72,7 @@ for metric in metrics:
         mean_SC[metric] = np.load(str(out))
         continue
     
-    sc_file = sc_dir / metric / f"{metric}_allsubj_Hagmann.npy"
+    sc_file = data_dir / "connectomes" / f"{metric}_allsubj_Hagmann.npy"
     sc_data = np.load(str(sc_file), allow_pickle=True).item()
     
     # stack all subject SC matrices: shape (n_subjects, n_regions, n_regions)
@@ -107,6 +111,6 @@ for metric in metrics:
 
         np.save(str(out), np.array(graphs)) 
         print(f"  {metric} sparsity={sparsity:.1f}: saved {out}")
-    
+
 
 print("\nDone.")

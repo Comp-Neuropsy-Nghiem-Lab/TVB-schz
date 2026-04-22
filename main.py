@@ -15,17 +15,21 @@ parser.add_argument("--exp", type=str, required=True, choices=["normal", "shuffl
 parser.add_argument("--weight_type", type=str, default=None)
 parser.add_argument("--parcellation", type=int, default=None)
 parser.add_argument("--subject", type=str, default=None)
+parser.add_argument("--extra", nargs="*", default=[])
 
 
 def main():
     start = time.time()
     args = parser.parse_args()
-
     config = parse_config(os.path.join(os.getcwd(), 'configs', f'{args.task}.yaml'))
     config["exp_name"] = args.exp
     config["weight_type"] = args.weight_type
     config["parcellation"] = args.parcellation
     config["subject"] = args.subject
+    
+    for item in args.extra:
+        key, value = item.split("=")
+        config[key] = value
 
     if args.task == "ei_tuning":
         module = importlib.import_module("tasks.ei_tuning")
