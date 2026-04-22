@@ -178,7 +178,6 @@ class ShuffleGraphEITuning(NormalEITuning):
         self.sparsity = config.get("sparsity", config.get("extra", {}).get("sparsity", 0.4))
         self.pat = f"shuf_{self.graph_idx}"
         
-        # print (self.out_dir / self.task / self.wtype / f"parc{self.parc}" / f"spar_{self.sparsity}")
         self.out_dir = self.out_dir / f"spar_{self.sparsity}"
         self.out_dir.mkdir(parents=True, exist_ok=True)
         self.out_file = self.out_dir / f"shuf_{self.pat}.npy"
@@ -196,50 +195,11 @@ class ShuffleGraphEITuning(NormalEITuning):
         self.weights = self.weights / jnp.max(self.weights)
         self.region_labels = jnp.load(self.data_dir / self.cfg["region_labels"][self.parc])
         
-        # Da wir kein echtes Subject haben, laden wir für FC das Gruppen-Mittel (Average)
-        # oder ein festes Ziel-FC
         fc_all = jnp.load(self.data_dir / self.cfg["fc_file"], allow_pickle=True).item()
         fc_matrices = jnp.array([fc_all[subj][self.parc] for subj in fc_all if fc_all[subj] is not None])
         self.fc = jnp.mean(fc_matrices, axis=0)
         
         
-        
-    # def load_data(self):
-    #     self.log.info(f"Loading shuffled graph data for {self.wtype}...")
-        
-    #     sparsity_int = int(float(self.sparsity) * 100)
-    #     file_name = f"{self.wtype}_er_spars{sparsity_int:03d}.npy"
-    #     file_path = self.shuffle_dir / file_name
-    #     print(f"File {file_name} found.")
-        
-    #     if not file_path.exists():
-    #         self.log.error(f"Graph file not found: {file_path}")
-    #         sys.exit(1)
-            
-    #     all_graphs = np.load(str(file_path))
-        
-    #     self.weights = jnp.array(all_graphs[self.graph_idx])
-    #     self.weights = self.weights / jnp.max(self.weights)
-    #     self.region_labels = jnp.load(self.data_dir / self.cfg["region_labels"][self.parc])
-        
-    #     fc_all = jnp.load(self.data_dir / self.cfg["fc_file"], allow_pickle=True).item()
-    #     fc_matrices = jnp.array([fc_all[subj][self.parc] for subj in fc_all if fc_all[subj] is not None])
-    #     self.fc = jnp.mean(fc_matrices, axis=0)
-        
-    #     self.log.info(f"Average FC computed over {len(fc_matrices)} subjects")
-        
-    #     def save(self, snapshots, fc_correlations, fc_rmse_values):
-    #         save_data = {k: snapshots[k][-1] for k in snapshots}
-    #         save_data["fc_corr_history"] = np.array(fc_correlations)
-    #         save_data["fc_rmse_history"] = np.array(fc_rmse_values)
-    #         save_data["task"] = self.task
-    #         save_data["subject"] = self.average
-    #         save_data["weight_type"] = self.wtype
-    #         save_data["parcellation"] = self.parc
-    #         save_data["fc_subject"] = self.fc_subject
-    #         np.save(str(self.out_file), save_data)
-    #         self.log.info(f"Saved → {self.out_file}")
-
 normal = NormalEITuning
 shuffle_region = ShuffleRegionEITuning
 shuffle_subj = ShuffleSubjectEITuning
