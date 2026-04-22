@@ -43,3 +43,4 @@ srun python main.py \
     --weight_type   "$WEIGHT_TYPE" \
     --parcellation "$PARCELLATION" \
     --extra         sparsity="SPARSITY", graph_idx="$GRAPH_IDX"
+    

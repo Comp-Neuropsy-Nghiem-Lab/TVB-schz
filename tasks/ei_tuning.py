@@ -171,7 +171,7 @@ class ShuffleSubjectEITuning(NormalEITuning):
         self.log.info(f"Saved → {self.out_file}")
 
 class ShuffleGraphEITuning(NormalEITuning):
-    
+     
     def __init__(self, config):
         super().__init__(config)
         self.graph_idx = int(config.get("graph_idx", config.get("extra", {}).get("graph_idx", 0)))

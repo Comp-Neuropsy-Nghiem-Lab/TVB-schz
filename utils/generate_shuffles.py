@@ -89,7 +89,7 @@ for metric in metrics:
     
 # ── Erdős–Rényi graphs with different sparsities ─────────────────────────────
 print("\nErdős–Rényi graphs:")
-sparsity_levels = [0.2, 0.4, 0.6, 0.8, 1.0]  # p = 1 - sparsity
+sparsity_levels = [0.2, 0.4, 0.6, 0.8, 1.0] 
 
 for metric in metrics:
     n_regions = mean_SC[metric].shape[0]
