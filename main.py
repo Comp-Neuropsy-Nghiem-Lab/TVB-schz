@@ -27,8 +27,11 @@ def main():
     config["parcellation"] = args.parcellation
     config["subject"] = args.subject
     
-    for item in args.extra:
-        key, value = item.split("=")
+    if args.extra == []:
+        continue
+    else:
+        for item in ",".join(args.extra).split(","):
+        key, value = item.split("=", 1)
         config[key] = value
 
     if args.task == "ei_tuning":

@@ -198,6 +198,8 @@ class ShuffleGraphEITuning(NormalEITuning):
         fc_all = jnp.load(self.data_dir / self.cfg["fc_file"], allow_pickle=True).item()
         fc_matrices = jnp.array([fc_all[subj][self.parc] for subj in fc_all if fc_all[subj] is not None])
         self.fc = jnp.mean(fc_matrices, axis=0)
+        self.fc_target = self.fc - jnp.diag(self.fc)
+
         
         
 normal = NormalEITuning
