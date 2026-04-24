@@ -7,7 +7,7 @@ Saves:
   $WORK/TVB-schz/shuffle/sub_order/keys_shuffled.npy        — subject order
 
 Usage:
-    python utils/generate_shuffles.py --config /configs/ei_tuning_config.yaml
+    python utils/generate_shuffles.py --config /configs/ei_tuning.yaml
 """
 
 import argparse

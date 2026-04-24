@@ -180,7 +180,7 @@ class ShuffleGraphEITuning(NormalEITuning):
         
         self.out_dir = self.out_dir / f"spar_{self.sparsity}"
         self.out_dir.mkdir(parents=True, exist_ok=True)
-        self.out_file = self.out_dir / f"shuf_{self.pat}.npy"
+        self.out_file = self.out_dir / f"{self.pat}.npy"
         
     def load_data(self):
         self.log.info(f"Loading shuffled graph data (Idx: {self.graph_idx})...")

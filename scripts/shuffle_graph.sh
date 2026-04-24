@@ -2,7 +2,7 @@
 #SBATCH --job-name=ei_shuf_graph
 #SBATCH --output=logs/slurm/shuf_graph_%A_%a.out
 #SBATCH --error=logs/slurm/shuf_graph_%A_%a.err
-#SBATCH --array=0-199%5nein    
+#SBATCH --array=0-199%20
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
@@ -18,7 +18,7 @@ N_SHUFFLES=10
 
 mkdir -p logs/slurm
 source ~/.bashrc
-conda activate /home/buerger/bht335/.conda/envs/tvboptim || conda activate tvboptim
+conda activate $WORK/.conda/tvboptim || conda activate tvboptim
 
 N_PARC=${#PARCELLATIONS[@]}
 N_SPAR=${#SPARSITIES[@]}

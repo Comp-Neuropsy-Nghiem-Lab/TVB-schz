@@ -28,11 +28,11 @@ def main():
     config["subject"] = args.subject
     
     if args.extra == []:
-        continue
+        pass
     else:
         for item in ",".join(args.extra).split(","):
-        key, value = item.split("=", 1)
-        config[key] = value
+            key, value = item.split("=", 1)
+            config[key] = value
 
     if args.task == "ei_tuning":
         module = importlib.import_module("tasks.ei_tuning")
