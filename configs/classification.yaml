@@ -1,0 +1,32 @@
+# ============================================================
+# Classification — Configuration
+# ============================================================
+
+# --- Paths ($HOME / $WORK expanded at runtime) ---
+data_dir:   "$WORK/TVB-schz"                     # SC / FC input data (read)
+output_dir: "$WORK/TVB-schz/results"             # EI-tuning results (read)
+save_dir:   "$WORK/TVB-schz/results/classification"  # classification scores (write)
+
+fc_file: "data/FC_allsubj_allparcellations_Hagmann.npy"
+
+weight_types:
+  ADC:     "connectomes/ADC_allsubj_Hagmann.npy"
+  gFA:     "connectomes/gFA_allsubj_Hagmann.npy"
+  density: "connectomes/density_allsubj_Hagmann.npy"
+  number:  "connectomes/numb_allsubj_Hagmann.npy"
+
+parcellation: 83
+
+# --- Evaluation ---
+classification_test_size: 0.5
+classification_n_splits: 100
+random_seed: 42
+
+# --- SGD ---
+sgd_loss: log_loss        # hinge | perceptron | modified_huber | log_loss
+sgd_max_iter: 5000
+sgd_tol: 0.005
+
+# --- Random Forest ---
+rf_n_estimators: 300
+rf_max_depth: None
