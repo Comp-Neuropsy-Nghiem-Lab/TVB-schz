@@ -4,14 +4,17 @@
 
 ## Project Structure
 TVB-schz/
+├── main.py                     ← entry point: --task ei_tuning|classification
 ├── configs/
-│   └── ei_tuning_config.yaml   ← all paths and simulation parameters
+│   ├── ei_tuning.yaml          ← EI-tuning paths and simulation parameters
+│   └── classification.yaml     ← classification paths and hyperparameters
 ├── scripts/
 │   ├── normal.sh               ← Task 1: fit SC → own FC
 │   ├── shuffle_region.sh       ← Task 2: shuffled SC regions → own FC
 │   └── shuffle_sub.sh          ← Task 3: SC → different subject's FC
 ├── tasks/
-│   └── ei_tuning.py            ← main simulation script (all 3 tasks)
+│   ├── ei_tuning.py            ← EI-tuning simulation (all tasks incl. shuffle_graph)
+│   └── classification.py       ← SGD / RF classification (J_i, wLRE, wFFI, FC features)
 ├── utils/
 │   └── generate_shuffles.py    ← generate shuffle files (run once)
 └── logs/
@@ -42,10 +45,20 @@ python -c "import jax; print(jax.devices())"  # must show CudaDevice
 
 2. Generate shuffle files (for tasks 2 & 3 only)
 ```bash
-python utils/generate_shuffles.py --config configs/ei_tuning_config.yaml
+python utils/generate_shuffles.py --config configs/ei_tuning.yaml
 ```
 
 3. Submit (should in TVB-schz/)
 ```bash
 sbatch scripts/normal.sh
 ```
+
+4. Run classification (after EI-tuning results exist for the target `--exp`)
+```bash
+python main.py --task classification --classifier SGD --exp normal
+python main.py --task classification --classifier RF  --exp shuffle_region
+```
+Reads EI-tuning results from `output_dir` and writes `{classifier}_{exp}.npy`
+to `save_dir` (see `configs/classification.yaml`) — the format
+`visualization.ipynb` expects. `--exp shuffle_graph` is not supported here,
+only `normal`, `shuffle_region`, `shuffle_subj`.

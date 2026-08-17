@@ -29,4 +29,4 @@ sgd_tol: 0.005
 
 # --- Random Forest ---
 rf_n_estimators: 300
-rf_max_depth: None
+rf_max_depth: 2
