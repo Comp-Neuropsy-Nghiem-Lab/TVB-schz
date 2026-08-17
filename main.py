@@ -4,14 +4,17 @@ import importlib
 import time
 import warnings
 
-from utils.tools import parse_config
+import numpy as np
+
+from utils.tools import expand_path, parse_config
 
 warnings.filterwarnings("ignore")
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--task", type=str, required=True, choices=["ei_tuning", "classification", "visualization"])
+parser.add_argument("--task", type=str, required=True, choices=["ei_tuning", "classification"])
 parser.add_argument("--exp", type=str, required=True, choices=["normal", "shuffle_region", "shuffle_subj", "shuffle_graph"])
+parser.add_argument("--classifier", type=str, default=None, choices=["SGD", "RF"])
 parser.add_argument("--weight_type", type=str, default=None)
 parser.add_argument("--parcellation", type=int, default=None)
 parser.add_argument("--subject", type=str, default=None)
@@ -40,9 +43,22 @@ def main():
         task = exp_class(config)
         task.run()
     elif args.task == "classification":
-        raise NotImplementedError("analysis is not added yet.")
-    elif args.task == "visualization":
-        raise NotImplementedError("visualization is not added yet.")
+        if args.classifier is None:
+            raise ValueError("--classifier is required for --task classification (choices: SGD, RF)")
+        if args.exp == "shuffle_graph":
+            raise ValueError("classification does not support --exp shuffle_graph")
+
+        module = importlib.import_module("tasks.classification")
+        exp_class = getattr(module, args.classifier)
+        config["result_exp"] = args.exp
+        task = exp_class(config)
+        results = task.run()
+
+        save_dir = expand_path(config["save_dir"])
+        save_dir.mkdir(parents=True, exist_ok=True)
+        out_file = save_dir / f"{args.classifier}_{args.exp}.npy"
+        np.save(str(out_file), results)
+        print(f"Saved -> {out_file}")
 
     print(f"Total time taken: {time.time() - start:.2f} seconds")
 
