@@ -1,6 +1,6 @@
 # Mapping excitation-inhibition balance in schizophrenia with white-matter-microstructure informed modeling
 
-> Whole-brain computational model fitting (EI tuning) for schizophrenia study. Fits a two-population Reduced Wong-Wang model to empirical functional connectivity (FC) using Feedback Inhibitory Control (FIC) + Excitation-Inhibition Balance (EIB) tuning.
+> Whole-brain computational model fitting (EI tuning) for schizophrenia study. Fits a two-population Reduced Wong-Wang model to empirical functional connectivity (FC) using Feedback Inhibitory Control (FIC) + Excitation-Inhibition Balance (EIB) tuning (Pille et al. https://github.com/virtual-twin/tvboptim.git)
 
 ## Project Structure
 TVB-schz/
